@@ -1,33 +1,46 @@
+-- ============================================================
 -- 0xTyLabs neovim config
+-- Inspired By:
+--   Bread        @https://github.com/BreadOnPenguins
+--   Takuya        @https://github.com/craftzdog
+--   Mariusz       @https://github.com/vhyrro
+-- ============================================================
 
--- Inspired By;
 
---Bread @https://github.com/BreadOnPenguins  
---Takuya Matsuyama @https://github.com/craftzdog
---Mariusz @https://github.com/vhyrro
-
--- vimplug setup
-local data_dir = vim.fn.stdpath('data')
-if vim.fn.empty(vim.fn.glob(data_dir .. '/site/autoload/plug.vim')) == 1 then
-	vim.cmd('silent !curl -fLo ' .. data_dir .. '/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
-	vim.o.runtimepath = vim.o.runtimepath
-	vim.cmd('autocmd VimEnter * PlugInstall --sync | source $MYVIMRC')
+local data_dir = vim.fn.stdpath("data")
+if vim.fn.empty(vim.fn.glob(data_dir .. "/site/autoload/plug.vim")) == 1 then
+  vim.cmd(
+    "silent !curl -fLo " .. data_dir .. "/site/autoload/plug.vim"
+    .. " --create-dirs "
+    .. "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  )
+  vim.o.runtimepath = vim.o.runtimepath
+  vim.cmd("autocmd VimEnter * PlugInstall --sync | source $MYVIMRC")
 end
 
--- init plugins 
-require ("settings.plugins")
 
--- init Dashboard
-require ("settings.alpha")
+vim.g.mapleader      = " "
+vim.g.maplocalleader = "\\"
 
--- init personalized options
-require ("settings.options")
+require("settings.options")    -- vim.opt settings
+require("settings.keymaps")    -- global keymaps
 
---colorscheme
-require ("settings.colorscheme")
- 
--- Init Editor Behavior 
-require ("settings.autocmd")
+require("settings.plugins")
 
--- Plugin settings
-require ("plugins.treesitter")
+require("settings.alpha")
+require("settings.colorscheme")
+
+require("settings.autocmd")
+
+require("plugins.treesitter")
+require("plugins.lualine")
+require("plugins.nvim-tree")
+require("plugins.telescope")
+require("plugins.lsp")
+require("plugins.cmp")
+require("plugins.conform")
+require("plugins.gitsigns")
+require("plugins.toggleterm")
+require("plugins.overseer")
+require("plugins.qol")          -- leap · autopairs · surround · comment · which-key
+                                 -- bufferline · indent-blankline · notify · ts-context

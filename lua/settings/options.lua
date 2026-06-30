@@ -1,63 +1,75 @@
-local options = {
-	laststatus = 3,
-	ruler = false, --disable extra numbering
-	showmode = false, --not needed due to lualine
-	showcmd = false,
-	wrap = true, --toggle bound to leader W
-	mouse = "a", --enable mouse
-	clipboard = "unnamedplus", --system clipboard integration
-	history = 100, --command line history
-	swapfile = false, --swap just gets in the way, usually
-	backup = false,
-	undofile = true, --undos are saved to file
-	cursorline = true, --highlight line
-	ttyfast = true, --faster scrolling
-	smoothscroll = true,
-	title = true, --automatic window titlebar
-	
-	number = true, --numbering lines
-	relativenumber = true, --toggle bound to leader nn
-	numberwidth = 4,
+-- ============================================================
+-- 0xTyLabs · settings/options.lua
+-- ============================================================
 
-	splitbelow = true,
-	splitright = true,
+local opt = vim.opt
 
+-- ── Appearance ───────────────────────────────────────────
+opt.termguicolors  = true
+opt.number         = true
+opt.relativenumber = true
+opt.signcolumn     = "yes"       -- always show gutter (no layout shift)
+opt.cursorline     = true
+opt.scrolloff      = 8
+opt.sidescrolloff  = 8
+opt.wrap           = false
+opt.colorcolumn    = "100"       -- soft column limit
+opt.showmode       = false       -- lualine handles this
+opt.laststatus     = 3           -- single global statusline (nvim 0.7+)
+opt.cmdheight      = 1
+opt.pumheight      = 12          -- max completion popup items
+opt.pumblend       = 10          -- popup transparency
+opt.winblend       = 10          -- floating window transparency
 
-	smarttab = true, --indentation stuff
-	cindent = true,
-	autoindent = false,
-	tabstop = 4, --visual width of tab
-	expandtab = true,
-	shiftwidth = 4,
+-- ── Editing ──────────────────────────────────────────────
+opt.expandtab      = true
+opt.shiftwidth     = 4
+opt.tabstop        = 4
+opt.softtabstop    = 4
+opt.smartindent    = true
+opt.autoindent     = true
+opt.breakindent    = true        -- wrapped lines keep indent
 
-	foldmethod = "expr",
-	foldlevel = 99, --disable folding, lower #s enable
-	foldexpr = "nvim_treesitter#foldexpr()",
-	
-	termguicolors = true,
+-- ── Search ───────────────────────────────────────────────
+opt.hlsearch       = true
+opt.incsearch      = true
+opt.ignorecase     = true
+opt.smartcase      = true        -- case-sensitive if uppercase present
 
-	ignorecase = true, --ignore case while searching
-	smartcase = true, --but do not ignore if caps are used
+-- ── Files ────────────────────────────────────────────────
+opt.undofile       = true        -- persistent undo
+opt.undodir        = vim.fn.stdpath("data") .. "/undo"
+opt.backup         = false
+opt.swapfile       = false
+opt.fileencoding   = "utf-8"
+opt.autoread       = true        -- auto-reload files changed on disk
 
-	conceallevel = 2, --markdown conceal
-	concealcursor = "nc",
+-- ── Performance ──────────────────────────────────────────
+opt.updatetime     = 150         -- faster CursorHold (gitsigns, LSP)
+opt.timeoutlen     = 300         -- which-key trigger time
+opt.redrawtime     = 1500
+opt.synmaxcol      = 240         -- don't highlight past column 240
 
-	splitkeep = 'screen', --stablizie window open/close
+-- ── Splits ───────────────────────────────────────────────
+opt.splitright     = true        -- vsplit opens right
+opt.splitbelow     = true        -- split opens below
 
-	virtualedit = "block",
+-- ── Clipboard ────────────────────────────────────────────
+opt.clipboard      = "unnamedplus"   -- share with system clipboard (Wayland)
 
-	inccommand = "split",
+-- ── Completion ───────────────────────────────────────────
+opt.completeopt    = { "menu", "menuone", "noselect" }
+opt.shortmess:append("c")            -- no "match 1 of N" messages
 
-}
+-- ── Folds (treesitter) ───────────────────────────────────
+opt.foldmethod     = "expr"
+opt.foldexpr       = "nvim_treesitter#foldexpr()"
+opt.foldlevel      = 99              -- open all folds by default
 
-for k, v in pairs(options) do
-	vim.opt[k] = v
-end
-
-vim.diagnostic.config({
-	signs = false,
-})
-
--- global options
-
-vim.g.mapleader = " "
+-- ── Misc ─────────────────────────────────────────────────
+opt.mouse          = "a"
+opt.conceallevel   = 0               -- don't hide markdown syntax
+opt.list           = true
+opt.listchars      = { tab = "→ ", trail = "·", nbsp = "␣" }
+opt.virtualedit    = "block"         -- block selection past EOL
+opt.inccommand     = "split"         -- live preview of :s substitutions

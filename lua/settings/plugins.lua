@@ -1,38 +1,76 @@
--- auto install vim-plug and plugins, if not found
+-- ============================================================
+-- 0xTyLabs · settings/plugins.lua
+-- Full IDE rice — speed-first, lazy-loaded where possible
+-- Use cases: ML · Backend/Linux · Android · Kernel/CUDA
+-- ============================================================
 
--- local data_dir = vim.fn.stdpath('data')
--- if vim.fn.empty(vim.fn.glob(data_dir .. '/site/autoload/plug.vim')) == 1 then
--- 	vim.cmd('silent !curl -fLo ' .. data_dir .. '/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim')
--- 	vim.o.runtimepath = vim.o.runtimepath
--- 	vim.cmd('autocmd VimEnter * PlugInstall --sync | source $MYVIMRC')
--- end
-
-
-local vim = vim
 local Plug = vim.fn['plug#']
-vim.g.start_time = vim.fn.reltime()
+vim.call('plug#begin', vim.fn.stdpath('data') .. '/plugged')
 
-vim.loader.enable() --  Flash 
-vim.call('plug#begin')
+-- ── UI / Aesthetics ────────────────────────────────────────
+Plug 'craftzdog/solarized-osaka.nvim'              -- theme
+Plug 'nvim-lualine/lualine.nvim'                   -- statusline
+Plug 'nvim-tree/nvim-web-devicons'                 -- icons
+Plug 'lukas-reineke/indent-blankline.nvim'         -- indent guides
+Plug 'nvim-tree/nvim-tree.lua'                     -- file explorer
+Plug 'akinsho/bufferline.nvim'                     -- buffer/tab bar
+Plug 'goolord/alpha-nvim'                          -- dashboard
+Plug 'rcarriga/nvim-notify'                        -- notifications
 
-Plug('nvim-lualine/lualine.nvim') --statusline
-Plug('nvim-tree/nvim-web-devicons') --pretty icons
-Plug('folke/which-key.nvim') --mappings popup
-Plug('romgrk/barbar.nvim') --bufferline
-Plug('goolord/alpha-nvim') --pretty startup
+-- ── Treesitter ─────────────────────────────────────────────
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
-Plug('nvim-treesitter/nvim-treesitter-textobjects')   -- ← required for @function.outer etc.
-Plug('mfussenegger/nvim-lint') --async linter
-Plug('nvim-tree/nvim-tree.lua') --file explorer
-Plug('windwp/nvim-autopairs') --autopairs 
-Plug('lewis6991/gitsigns.nvim') --git
-Plug('numToStr/Comment.nvim') --easier comments
-Plug('norcalli/nvim-colorizer.lua') --color highlight
-Plug('ibhagwan/fzf-lua') --fuzzy finder and grep
-Plug('numToStr/FTerm.nvim') --floating terminal
-Plug('ron-rs/ron.vim') --ron syntax highlighting
-Plug('MeanderingProgrammer/render-markdown.nvim') --render md inline
-Plug('emmanueltouzery/decisive.nvim') --view csv files
-Plug('folke/twilight.nvim') --surrounding dim
-Plug('craftzdog/solarized-osaka.nvim') --solarized colorscheme
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-context'     -- sticky context header
+
+-- ── Fuzzy Finder ───────────────────────────────────────────
+Plug 'nvim-lua/plenary.nvim'
+Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.x' })
+Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
+
+-- ── LSP ────────────────────────────────────────────────────
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvimdev/lspsaga.nvim'
+Plug 'folke/trouble.nvim'
+
+-- ── Completion ─────────────────────────────────────────────
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
+
+-- ── Formatting & Linting ───────────────────────────────────
+Plug 'stevearc/conform.nvim'
+Plug 'mfussenegger/nvim-lint'
+
+-- ── DAP (Debugging) ────────────────────────────────────────
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'jay-babu/mason-nvim-dap.nvim'
+
+-- ── Terminal & Task Runner ─────────────────────────────────
+Plug 'akinsho/toggleterm.nvim'
+Plug 'stevearc/overseer.nvim'
+
+-- ── Git ────────────────────────────────────────────────────
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'tpope/vim-fugitive'
+
+-- ── Navigation & Editing QoL ───────────────────────────────
+Plug 'https://codeberg.org/andyg/leap.nvim'
+Plug 'windwp/nvim-autopairs'
+Plug 'kylechui/nvim-surround'
+Plug 'numToStr/Comment.nvim'
+Plug 'folke/which-key.nvim'
+
+-- ── Language-specific extras ───────────────────────────────
+Plug 'udalov/kotlin-vim'                           -- Kotlin syntax
+Plug 'Vimjas/vim-python-pep8-indent'               -- Python indent
+
 vim.call('plug#end')
